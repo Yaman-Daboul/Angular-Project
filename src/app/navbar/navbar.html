@@ -1,0 +1,14 @@
+<nav style="display: flex; gap: 15px; background: #222; color: white; padding: 10px; align-items: center;">
+  @for (item of links; track item) {
+    <span>{{ item }}</span>
+  }
+
+  <!-- خانة إدخال مربوطة ثنائياً -->
+  <input type="text" [(ngModel)]="username" placeholder="Enter your name..." style="padding: 5px; border-radius: 4px; border: none;">
+
+  @if (isLoggedIn) {
+    <strong style="margin-right: auto; color: #4ade80;">Welcome, {{ username }}</strong>
+  } @else {
+    <button>Sign In</button>
+  }
+</nav>
