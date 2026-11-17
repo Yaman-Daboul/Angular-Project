@@ -8,16 +8,32 @@
 
   <hr style="margin: 20px 0;">
 
-  <h2>Users List (Fetched from External API via HttpClient):</h2>
+  <!-- <h2>Users List (Fetched from External API via HttpClient):</h2> -->
+
+  <h2>Users Directory & Live Search:</h2>
+
+  <!-- خانة البحث الحي -->
+  <div style="margin-bottom: 15px;">
+    <input
+      type="text"
+      [(ngModel)]="searchQuery"
+      placeholder="Search by name or email..."
+      style="padding: 8px 12px; width: 300px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 14px;">
+  </div>
+
   @if (isLoading) {
     <p style="color: #666; font-style: italic;">Loading data from server...</p>
   } @else {
     <ul style="list-style: none; padding: 0;">
-      @for (user of usersList; track user.id) {
+      <!-- @for (user of usersList; track user.id) { -->
+       <!-- صرنا نعرض filteredUsers بدل usersList الأصلية -->
+      @for (task of filteredUsers(); track task.id) {
         <li style="background: #f8fafc; margin-bottom: 8px; padding: 12px; border-radius: 6px; border: 1px solid #e2e8f0;">
-          <strong>{{ user.name }}</strong> — <span style="color: #0284c7;">{{ user.email }}</span>
-          <span style="float: right; color: #64748b; font-size: 14px;">City: {{ user.address.city }}</span>
+          <strong>{{ task.title }}</strong> — <span style="color: #0284c7;">{{ task.description }}</span>
+          <span style="float: right; color: #64748b; font-size: 14px;">Priority: {{ task.priority }}</span>
         </li>
+      } @empty {
+        <p style="color: #ef4444; font-style: italic;">No tasks found matching your search.</p>
       }
     </ul>
   }

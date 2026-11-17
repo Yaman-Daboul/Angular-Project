@@ -9,8 +9,9 @@ export class DataService {
   private http = inject(HttpClient); // 2. حقن الـ HttpClient
 
   // رابط API وهمي جاهز للتجارب
-  private apiUrl = 'https://jsonplaceholder.typicode.com/users';
+  // private apiUrl = 'https://jsonplaceholder.typicode.com/users';
 
+  private apiUrl = 'http://127.0.0.1:8000/api/test';
 
   // بيانات وهمية تشبه ما ستجلبه من MongoDB مستقبلاً
   // private projects = [
