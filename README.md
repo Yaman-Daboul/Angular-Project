@@ -1,5 +1,5 @@
 # screenshot
-![alt text](image.png)
+<img width="1898" height="961" alt="image" src="https://github.com/user-attachments/assets/b86e4258-47f1-43ba-8d4d-f72ffb0b5d25" />
 
 # AngularApp
 
