@@ -32,27 +32,91 @@ export class App implements OnInit {
   // 4. متغير تفاعلي لنص البحث (Search Query)
   searchQuery = signal('');
 
+  // حقول نموذج إضافة تاسك جديد
+  newTaskTitle = '';
+  newTaskDescription = '';
+  newTaskPriority = 'medium'; // القيمة الافتراضية
 
-
-  // دالة بتشتغل أول ما يفتح المكون
   ngOnInit() {
-    this.dataService.getUsers().subscribe({
+    this.fetchTasks();
+  }
+
+  // دالة لجلب التاسكات (مفصولة لنستدعيها عند الحاجة لتحديث القائمة)
+  fetchTasks() {
+    this.isLoading = true;
+    this.dataService.getTasks().subscribe({
       next: (data) => {
-        this.tasksList = data; // تخزين البيانات القادمة
-        this.isLoading = false; // وقف التحميل
-        this.cdr.detectChanges(); // 3. أمر مباشر للـ Angular: "يلا حدث الواجهة فوراً وصلت البيانات!"
-        console.log('Data fetched successfully:', data);
+        this.tasksList = data;
+        this.isLoading = false;
+        this.cdr.detectChanges();
       },
       error: (err) => {
-        console.error('Error fetching data:', err);
+        console.error('Error fetching tasks:', err);
         this.isLoading = false;
+        this.cdr.detectChanges();
       }
     });
   }
+
+  // دالة إرسال التاسك الجديد للباك إند
+  addNewTask() {
+    if (!this.newTaskTitle.trim()) return; // منع الإرسال لو العنوان فارغ
+
+    const taskPayload = {
+      title: this.newTaskTitle,
+      description: this.newTaskDescription,
+      priority: this.newTaskPriority
+    };
+
+    this.dataService.addTask(taskPayload).subscribe({
+      next: (response) => {
+        console.log('Task added successfully:', response);
+        // تفريغ الحقول بعد الإنجاح
+        this.newTaskTitle = '';
+        this.newTaskDescription = '';
+        this.newTaskPriority = 'medium';
+
+        // إعادة جلب التاسكات لتحديث القائمة فوراً
+        // this.fetchTasks();
+
+        // إعادة جلب التاسكات وتحديث الواجهة يدوياً
+        // this.dataService.getTasks().subscribe({
+        //   next: (data) => {
+        //     this.tasksList = data;
+        //     this.cdr.detectChanges(); // <-- هاد السطر هو السر ليحدث الواجهة فوراً!
+        //   }
+        // });
+
+        // إضافة التاسك الجديد مباشرة لمقدمة المصفوفة وعرضه بالواجهة
+        this.tasksList.unshift(response);
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error adding task:', err);
+      }
+    });
+  }
+
+  // دالة بتشتغل أول ما يفتح المكون
+  // ngOnInit() {
+  //   this.dataService.getTasks().subscribe({
+  //     next: (data) => {
+  //       this.tasksList = data; // تخزين البيانات القادمة
+  //       this.isLoading = false; // وقف التحميل
+  //       this.cdr.detectChanges(); // 3. أمر مباشر للـ Angular: "يلا حدث الواجهة فوراً وصلت البيانات!"
+  //       console.log('Data fetched successfully:', data);
+  //     },
+  //     error: (err) => {
+  //       console.error('Error fetching data:', err);
+  //       this.isLoading = false;
+  //     }
+  //   });
+  // }
+
   // 3. تخزين المشاريع بمتغير لنعرضه بالواجهة
   // projectsList = this.dataService.getProjects();
   // 5. خاصية محسوبة (Computed) لتصفية المستخدمين بناءً على اسمهم لحظياً
-  filteredUsers = computed(() => {
+  filteredTasks = computed(() => {
     const query = this.searchQuery().toLowerCase();
     if (!query) return this.tasksList;
 

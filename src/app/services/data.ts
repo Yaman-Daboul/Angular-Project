@@ -1,5 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'; // 1. استيراد HttpClient
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root' // هذا معناه أن الخدمة متاح استخدامها في كل المشروع
@@ -8,10 +9,22 @@ export class DataService {
 
   private http = inject(HttpClient); // 2. حقن الـ HttpClient
 
+  // private apiUrl = 'http://127.0.0.1:8000/api/test';
+  private apiUrl = 'http://127.0.0.1:8000/api'; // الرابط الأساسي للـ API
+
+  // getTasks() {
+  //   return this.http.get<any[]>(this.apiUrl);
+  // جلب التاسكات (GET)
+  getTasks(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/test`);
+  }
+  // إضافة تاسك جديد (POST)
+  addTask(taskData: { title: string; description: string; priority: string }): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/test2`, taskData);
+  }
+
   // رابط API وهمي جاهز للتجارب
   // private apiUrl = 'https://jsonplaceholder.typicode.com/users';
-
-  private apiUrl = 'http://127.0.0.1:8000/api/test';
 
   // بيانات وهمية تشبه ما ستجلبه من MongoDB مستقبلاً
   // private projects = [
@@ -24,8 +37,7 @@ export class DataService {
   //   return this.projects;
   // }
   // دالة بترجع Observable بالبيانات القادمة من السيرفر
-  getUsers() {
-    return this.http.get<any[]>(this.apiUrl);
-  }
+
+
 }
 

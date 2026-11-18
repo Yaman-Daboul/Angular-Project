@@ -10,10 +10,81 @@
 
   <!-- <h2>Users List (Fetched from External API via HttpClient):</h2> -->
 
+  <!-- قسم إضافة تاسك جديد -->
+  <div style="background: #f1f5f9; padding: 15px; border-radius: 8px; margin-bottom: 25px; border: 1px solid #cbd5e1;">
+    <h3>Add New Task</h3>
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <input
+        type="text"
+        [(ngModel)]="newTaskTitle"
+        placeholder="Task Title..."
+        style="padding: 8px 12px; border-radius: 6px; border: 1px solid #cbd5e1;">
+
+      <textarea
+        [(ngModel)]="newTaskDescription"
+        placeholder="Task Description..."
+        rows="2"
+        style="padding: 8px 12px; border-radius: 6px; border: 1px solid #cbd5e1; resize: none;"></textarea>
+
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <label>Priority:</label>
+        <select [(ngModel)]="newTaskPriority" style="padding: 6px; border-radius: 6px; border: 1px solid #cbd5e1;">
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+        </select>
+
+        <button (click)="addNewTask()" style="background: #0284c7; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: bold;">
+          Save Task
+        </button>
+      </div>
+    </div>
+  </div>
+
   <h2>Users Directory & Live Search:</h2>
 
   <!-- خانة البحث الحي -->
   <div style="margin-bottom: 15px;">
+    <input
+      type="text"
+      [(ngModel)]="searchQuery"
+      placeholder="Search by title, description, or priority..."
+      style="padding: 8px 12px; width: 100%; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 14px; box-sizing: border-box;">
+  </div>
+
+  @if (isLoading) {
+    <p style="color: #666; font-style: italic;">Loading tasks from Laravel server...</p>
+  } @else {
+    <ul style="list-style: none; padding: 0;">
+      @for (task of filteredTasks(); track task.id) {
+        <li style="background: #f8fafc; margin-bottom: 12px; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <strong style="font-size:16px; color: #0f172a;">#{{ task.id }} - {{ task.title }}</strong>
+            <span style="padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: bold; text-transform: uppercase; background: #e0f2fe; color: #0369a1;">
+              Priority: {{ task.priority }}
+            </span>
+          </div>
+          <p style="margin: 0; color: #475569; font-size: 14px; line-height: 1.5;">{{ task.description }}</p>
+        </li>
+      } @empty {
+        <p style="color: #ef4444; font-style: italic;">No tasks found matching your search.</p>
+      }
+    </ul>
+  }
+</div>
+
+
+  <!-- <h2>Projects List (Fetched from Service):</h2> -->
+  <!-- <ul style="list-style: none; padding: 0;">
+    @for (project of projectsList; track project.id) {
+      <li style="background: #f4f4f5; margin-bottom: 10px; padding: 10px; border-radius: 5px; border-left: 4px solid #4ade80;">
+        <strong>{{ project.name }}</strong> — <span style="color: #666;">{{ project.tech }}</span>
+        <span style="float: right; font-weight: bold; color: #2563eb;">{{ project.status }}</span>
+      </li>
+    }
+  </ul> -->
+<!-- خانة البحث الحي -->
+  <!-- <div style="margin-bottom: 15px;">
     <input
       type="text"
       [(ngModel)]="searchQuery"
@@ -25,9 +96,9 @@
     <p style="color: #666; font-style: italic;">Loading data from server...</p>
   } @else {
     <ul style="list-style: none; padding: 0;">
-      <!-- @for (user of usersList; track user.id) { -->
+       @for (user of usersList; track user.id) { -->
        <!-- صرنا نعرض filteredUsers بدل usersList الأصلية -->
-      @for (task of filteredUsers(); track task.id) {
+      <!-- @for (task of filteredUsers(); track task.id) {
         <li style="background: #f8fafc; margin-bottom: 8px; padding: 12px; border-radius: 6px; border: 1px solid #e2e8f0;">
           <strong>{{ task.title }}</strong> — <span style="color: #0284c7;">{{ task.description }}</span>
           <span style="float: right; color: #64748b; font-size: 14px;">Priority: {{ task.priority }}</span>
@@ -37,14 +108,4 @@
       }
     </ul>
   }
-  <!-- <h2>Projects List (Fetched from Service):</h2> -->
-  <!-- <ul style="list-style: none; padding: 0;">
-    @for (project of projectsList; track project.id) {
-      <li style="background: #f4f4f5; margin-bottom: 10px; padding: 10px; border-radius: 5px; border-left: 4px solid #4ade80;">
-        <strong>{{ project.name }}</strong> — <span style="color: #666;">{{ project.tech }}</span>
-        <span style="float: right; font-weight: bold; color: #2563eb;">{{ project.status }}</span>
-      </li>
-    }
-  </ul> -->
-
-</div>
+</div> -->
