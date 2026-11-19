@@ -1,16 +1,28 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router'; // استيراد RouterLink لربط العناصر بالمسارات بدل إعادة تحميل الصفحة
+
+interface NavItem {
+  label: string; // النص الظاهر في شريط التنقل
+  path: string;  // المسار (Route) الذي سينتقل إليه المستخدم
+}
 
 @Component({
   selector: 'app-navbar',
-  imports: [CommonModule, FormsModule],
+  standalone: true,
+  imports: [CommonModule, RouterLink], // تفعيل RouterLink داخل القالب
   styleUrl: './navbar.css',
   templateUrl: './navbar.html'
 })
 export class Navbar {
-  links = ['Main', 'The Projects', 'Contact Us!'];
+  // قائمة روابط التنقل مع مساراتها
+  navLinks: NavItem[] = [
+    { label: 'Main', path: '/' },
+    { label: 'Tasks', path: '/tasks' }, // رابط صفحة المهام المرتبطة بـ MongoDB عبر Express
+    { label: 'The Projects', path: '/projects' },
+    { label: 'Contact Us!', path: '/contact' }
+  ];
+
   isLoggedIn = true;
   username = 'Yaman';
 

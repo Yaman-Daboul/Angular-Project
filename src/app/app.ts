@@ -7,8 +7,5 @@ import { Navbar } from './components/navbar/navbar';
   standalone: true,
   imports: [RouterOutlet, Navbar],
   templateUrl: './app.html',
-  styleUrl: './app.css'
 })
-export class App {
-  title = 'Angular-app';
-}
+export class App { }

@@ -1,0 +1,20 @@
+<div style="max-width: 500px; margin: 2rem auto;">
+  <h2>قائمة المهام (MEAN Stack)</h2>
+
+  <form (ngSubmit)="addTask()">
+    <input
+      type="text"
+      [(ngModel)]="newTaskTitle"
+      name="taskTitle"
+      placeholder="اكتب مهمة جديدة..."
+      required
+    />
+    <button type="submit">إضافة</button>
+  </form>
+
+  <ul>
+    <li *ngFor="let task of tasks">
+      {{ task.title }}
+    </li>
+  </ul>
+</div>
