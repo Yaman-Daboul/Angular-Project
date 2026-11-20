@@ -1,5 +1,12 @@
 # screenshot
-<img width="1898" height="961" alt="image" src="https://github.com/user-attachments/assets/b86e4258-47f1-43ba-8d4d-f72ffb0b5d25" />
+Fetched Data from Laravel API project & MySQL DataBase
+<img width="1919" height="1016" alt="image" src="https://github.com/user-attachments/assets/8eb99524-c39e-48f5-9fe1-46b132402a32" />
+
+Fetched Data from Node.js API project & MongoDB
+<img width="1919" height="470" alt="image" src="https://github.com/user-attachments/assets/43f62863-f1c5-4128-a77a-d0b638b4bd15" />
+
+MongoDB
+<img width="1919" height="1019" alt="image" src="https://github.com/user-attachments/assets/0d5b7339-8644-40c5-8999-7d8fa9ac14e1" />
 
 # AngularApp
 
